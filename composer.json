@@ -1,0 +1,69 @@
+{
+  "name": "uuoa/sdk",
+  "type": "library",
+  "keywords": [
+    "php",
+    "swoole",
+    "framework",
+    "hyperf",
+    "microservice",
+    "middleware"
+  ],
+  "description": "A coroutine framework that focuses on hyperspeed and flexible, specifically use for build microservices and middlewares.",
+  "license": "Apache-2.0",
+  "require": {
+    "php": ">=8.0",
+    "hyperf/config": "~3.0.0",
+    "hyperf/guzzle": "~3.0.0",
+    "hyperf-plus/route": "~3.0.0",
+    "hyperf/redis": "~3.0.0",
+    "psr/log": "^1 || ^2 || ^3",
+    "psr/simple-cache": "^1.0",
+    "hyperf/http-server": "~3.0.0"
+  },
+  "require-dev": {
+    "hyperf/ide-helper": "~3.0.0",
+    "swoole/ide-helper": "^4.5"
+  },
+  "suggest": {
+    "ext-openssl": "Required to use HTTPS.",
+    "ext-json": "Required to use JSON.",
+    "ext-pdo": "Required to use MySQL Client.",
+    "ext-pdo_mysql": "Required to use MySQL Client.",
+    "ext-redis": "Required to use Redis Client."
+  },
+  "autoload": {
+    "psr-4": {
+      "UUOA\\Sdk\\": "src/"
+    },
+    "files": [
+      "src/Helper/helpers.php"
+    ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "extra": {
+    "hyperf": {
+      "config": "UUOA\\Sdk\\ConfigProvider"
+    }
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-autoload-dump": [
+      "rm -rf runtime/container"
+    ],
+    "test": "co-phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
+    "cs-fix": "php-cs-fixer fix $1",
+    "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon ./src ./config",
+    "start": [
+      "Composer\\Config::disableProcessTimeout",
+      "php ./bin/hyperf.php start"
+    ]
+  }
+}
